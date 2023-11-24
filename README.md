@@ -3,11 +3,11 @@ This folder contains the code and reports of the highlighted projects during my 
 
 ## Projects contained:
 
-### MSc projects:
+### MSc projects (2023-):
 - Deep Q-Network to solve Cart-pole environment, Decision Tree classifier and Model-free RL algorithms (MC, TD, DP)
 - Folder contains: Python code and reports
 
-### MSc Thesis:
+### MASt Thesis (2023):
 - Thesis for masters at the University of Cambridge; A review of recent proposals to bootstrap cosmological correlators.
 - Folder contains: Report
 
@@ -15,7 +15,7 @@ This folder contains the code and reports of the highlighted projects during my 
 - Data analysis and networks project analysing time series data of sparrows in Lundy island.
 - Folder contains: Report and Viva.
 
-### Computational Optimisation:
+### Computational Optimisation (2021):
 - Computational optimisation taken at Imperial College London. The project involved using different unconstrained minimisation methods to find the optimal parameters describing neutrino oscillations.
 - Folder contains: Report and code
 
