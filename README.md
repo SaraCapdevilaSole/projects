@@ -1,6 +1,4 @@
-# This is a Level 1 Header
-## This is a Level 2 Header
-### This is a Level 3 Header
-#### This is a Level 4 Header
-##### This is a Level 5 Header
-###### This is a Level 6 Header
+# Projects 2020-2023
+This folder contains the code and reports of the highlighted projects during my BSc in Physics (2019-2022) and MSc in ML & AI (2023-2024) at Imperial College London, and during my MASt in Applied Maths at the University of Cambridge (2022-2023).
+
+## Projects contained:
