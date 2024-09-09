@@ -14,8 +14,7 @@ The key components of the project are outlined below:
 
 3. **Physics-Informed Neural Networks (PINNs)**:
    - Code for training and evaluating PINNs to solve partial differential equations.
-   - Builds on source code from PirateNets [1]
-  
+   - Builds on source code from PirateNets [1] (their source code should be first cloned and the files in this repository should be added to their /examples).
 
 References:
 [1] Wang S, Li B, Chen Y, Perdikaris P. PirateNets: Physics-informed Deep Learning with Residual Adaptive Networks. arXiv. 2024.
