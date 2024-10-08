@@ -6,7 +6,7 @@ This repository contains the source code developed for my MSc project titled **"
 
 This project aims to model brain functions using Physics-Informed Neural Networks (PINNs) to solve the Helmholtz equation across different dimensions and geometries. The key components of this project include:
 
-### Key Components
+### Key Components 
 
 1. **2D Forward PINN**  
    - Solves the Helmholtz equation on a unit 2D square domain.
