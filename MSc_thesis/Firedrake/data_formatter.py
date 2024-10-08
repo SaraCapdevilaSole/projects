@@ -101,9 +101,6 @@ if save_derivatives:
     p_t_T_data = array_cleanup(p_t_combined_array)
     p_tt_T_data = array_cleanup(p_tt_combined_array)
 
-# mesh = meshio.read(c.path_msh)
-# mesh_coordinates = mesh.points
-
 mesh_coordinates = np.array(mesh.coordinates.dat.data)
 if isinstance(c.prop_to_keep, str):
     del mesh_coordinates
@@ -129,10 +126,8 @@ if save_derivatives:
     data_dict['p_tt'] = p_tt_T_data
     print(np.shape(p_tt_T_data))
 
-# Save the data 
 np.save(pinns_input_file, data_dict)
 
-# print(phi_e_T_data[1,:])
 print(np.shape(mesh_coordinates))
 print(np.shape(phi_e_T_data))
 print(np.shape(Qs_T_data))
