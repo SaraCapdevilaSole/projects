@@ -54,7 +54,7 @@ if noise_type == "pink_noise":
         noise_args['v'] = 100
         noise_args['coords_div'] = 1
 
-_extra_str = f"_{noise_type}_ic=Q" #_ms=1_mr=1_v=10_coordsdiv100" #_FORFIGURETODELETE!"
+_extra_str = f"_{noise_type}_ic=Q" 
 if 'prop_to_keep' in config_kwargs:
     if isinstance(config_kwargs['prop_to_keep'], str):
         _extra_str += '_subset_' + config_kwargs['prop_to_keep']
