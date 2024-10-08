@@ -29,17 +29,17 @@ plotter.show()
 np.savetxt(f'{save_dir}/normals_{n}.txt', normals, delimiter=',')
 
 
-# # VISUALISE HALF: Slice the mesh to get the first half
-# bounds = brain.bounds
-# x_min, x_max = bounds[0], bounds[1]
-# x_mid = (x_max + x_min) / 2
-# first_half = brain.clip_box(bounds=[x_min, x_mid, bounds[2], bounds[3], bounds[4], bounds[5]])
+# VISUALISE HALF: Slice the mesh to get the first half
+bounds = brain.bounds
+x_min, x_max = bounds[0], bounds[1]
+x_mid = (x_max + x_min) / 2
+first_half = brain.clip_box(bounds=[x_min, x_mid, bounds[2], bounds[3], bounds[4], bounds[5]])
 
-# plotter = pv.Plotter()
-# plotter.add_mesh(first_half, color='silver')
-# plotter.add_mesh(first_half.glyph(geom=pv.Arrow(), orient='Normals', scale=2.0), color='red')
-# plotter.view_vector([-10, -10, 10])
-# plotter.show()
+plotter = pv.Plotter()
+plotter.add_mesh(first_half, color='silver')
+plotter.add_mesh(first_half.glyph(geom=pv.Arrow(), orient='Normals', scale=2.0), color='red')
+plotter.view_vector([-10, -10, 10])
+plotter.show()
 
 
 # compute curvature - at each vertex there is a scalar curvature value: (5124,1)
