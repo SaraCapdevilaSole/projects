@@ -10,10 +10,6 @@ from src.config.params import noise, T, sn, dt, size, XN, TN, max_size, _extra_s
 runs = [
     {'sn': sn, 'size': 131, 'dt': dt, 'T': T, 'extra': _extra_str},
     {'sn': sn, 'size': 164, 'dt': dt, 'T': T, 'extra': _extra_str},
-    # {'sn': sn, 'size': 164, 'dt': dt, 'T': T, 'extra': _extra_str},
-    # {'sn': 1e-5, 'size': size, 'dt': 1e-5, 'T': T, 'extra': _extra_str},
-    # {'sn': sn, 'size': 131, 'dt': dt, 'T': T, 'extra': _extra_str},
-    # {'sn': 1e-5, 'size': size, 'dt': 1e-5, 'T': T, 'extra': _extra_str},
 ]
 
 N = 10
@@ -47,24 +43,19 @@ for ri, r in enumerate(runs):
         n = random_indices[i]
         if i == 0:
             labels = [rf'164k', rf'131k']
-            # labels = [rf'$\mathit{{\delta t}}$', rf'$10\mathit{{\delta t}}$']
             label = labels[ri]
         else:
             label = None
-        # label = None 
         plt.plot(data['t_star'][:], data['phi_e'][:,n], label=label, color=color, linestyle=ls, alpha=alpha)
-        # plt.scatter(data['t_star'][:data['phi_e'].shape[0]], data['phi_e'][:,n], marker=marker, color=color, s=3)
 
 format_sigfig = lambda x: float(f'{x:.1g}')
 ax.legend(fontsize=12)
 ax.grid(True, linestyle='--', alpha=0.7)
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
-# ax.set_xticks([0,max(data['t_star'])/2, max(data['t_star'])])
 ax.set_yticks([format_sigfig(min(data['phi_e'][:,random_indices[0]])*1.1), format_sigfig((max(data['phi_e'][:,random_indices[0]])*0.9 + min(data['phi_e'][:,random_indices[0]])*1.1)/2), format_sigfig(max(data['phi_e'][:,random_indices[0]])*0.9)])
 ax.ticklabel_format(style='sci', axis='x', scilimits=(0, 0))
 ax.ticklabel_format(style='sci', axis='y', scilimits=(0, 0))
-# plt.xlim([0,T])
 plt.xlabel("Time (s)")
 plt.ylabel(r'$\varphi_e$', fontsize=12)
 plt.tight_layout()
