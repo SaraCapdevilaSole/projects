@@ -84,8 +84,6 @@ for s, subject in enumerate(subjects):
             s_path = n_curv_general_path + f'/norm_curv_{max_size}_{subject}.npy'
             ncurv_dict = {'norm': n_patch, 'curv': curv_patch}
             np.save(s_path, ncurv_dict)
-        # subset_datas.append(subset_data)
-        # mesh_subsets.append(rg_interest)
         n_subjects += 1
 
 if PLOT_KNN:
@@ -122,9 +120,6 @@ if PLOT_KNN:
     plt.savefig('test.pdf')
 
 
-# rate_actual = u_data[ft, :]
-# vmin = rate_actual.min()
-# vmax = rate_actual.max()
 
 if PLOT:
     x = mesh_coordinates[:, 0]
@@ -147,36 +142,16 @@ if PLOT:
         ax.set_xticks([int(np.min(time_array[t_avoid_files:t_cut_files])), int(np.max(time_array[t_avoid_files:t_cut_files]))])
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
-        # ax.spines['bottom'].set_visible(False)
-        # ax.spines['left'].set_visible(False)
-        # formatter = ScalarFormatter(useMathText=True)
-        # formatter.set_powerlimits((-3, 3))
-        # exponent = int(np.log10(max(abs(min_y), abs(max_y))))
-
-        # ax.text(
-        #     -0.05, 1.02, rf'$10^{exponent}$',
-        #     transform=ax.transAxes,
-        #     fontsize=10,
-        #     verticalalignment='bottom',
-        #     horizontalalignment='left'
-        # )
-
-        # ax.yaxis.set_major_formatter(formatter)
-        # ax.yaxis.set_major_formatter(FormatStrFormatter('%.0e'))
         ax.set_ylim([min_y * 1.1, max_y * 1.1])
 
     fig, axes = plt.subplots(1, n_subjects, figsize=(12, 4), subplot_kw={'projection': '3d'}, dpi=150)
 
     colors = ['black', 'red', 'blue', 'green', 'purple', 'orange', 'black', 'gray', 'pink']
 
-    # triang_full = triang_func(mesh_coordinates)
     for i, ax in enumerate(axes):
-        # ax.plot_trisurf(triang_full, mesh_coordinates[:, 2], cmap='gray', edgecolor=None, alpha=0.2, zorder=1)
         ax.scatter(mesh_coordinates[:, 0], mesh_coordinates[:, 1], mesh_coordinates[:, 2], color='gray', s=15, zorder=1, alpha=0.005)
         mesh_subset = mesh_subsets[i]
-        # triang = triang_func(mesh_subset)
         ax.scatter(mesh_subset[:, 0], mesh_subset[:, 1], mesh_subset[:, 2], color=colors[i], s=10, zorder=2, alpha=1.0, label='{subjects[i]}')
-        # ax.plot_trisurf(triang, mesh_subset[:, 2], edgecolor=None, alpha=1.0, , color=colors[i], zorder=2)
         
         pos = ax.get_position()
 
@@ -198,78 +173,9 @@ if PLOT:
         ax.grid(False)
         ax.set_axis_off()
 
-    # origin = [-100, -100, -100]  
-    # axes[0].quiver(*origin, 1, 0, 0, color='k', length=100, normalize=False)  
-    # axes[0].quiver(*origin, 0, 1, 0, color='k', length=100, normalize=False)  
-    # axes[0].quiver(*origin, 0, 0, 1, color='k', length=100, normalize=False) 
-
-    # Adjust layout
-    # plt.tight_layout()
-
-    # Save the figure
     save_path = 'simulations/real_mesh'
     os.makedirs(save_path, exist_ok=True)
     fig_path = os.path.join(save_path, f'{noise_type}_{size}_{dt}_{_extra_str}.pdf')
     fig.savefig(fig_path, bbox_inches="tight", dpi=100)
 
     plt.show()
-
-    # fig, axes = plt.subplots(2, n_subjects, figsize=(15, 8), subplot_kw={'projection': '3d' if row == 0 else None for row in range(2)})
-    # for i in range(n_subjects):
-    #     ax_3d = axes[0, i]  # Top row: 3D plot
-    #     ax_2d = axes[1, i]  # Bottom row: 2D plot
-        
-    #     # 3D plot
-    #     ax_3d.plot_trisurf(triang_full, mesh_coordinates[:, 2], cmap='gray', edgecolor=None, alpha=0.2, zorder=1)
-    #     mesh_subset = mesh_subsets[i]
-    #     triang = triang_func(mesh_subset)
-    #     ax_3d.plot_trisurf(triang, mesh_subset[:, 2], edgecolor=None, alpha=0.7, label=subjects[i], color=colors[i], zorder=2)
-    #     ax_3d.view_init(elev=90, azim=90)
-    #     ax_3d.set_title(subjects[i])
-    #     ax_3d.grid(False)
-    #     ax_3d.set_axis_off()
-        
-    #     # 2D plot under the 3D plot
-    #     ax_2d.plot(subset_datas[i], color=colors[i])
-    #     ax_2d.set_title(f'{subjects[i]} Data Comparison')
-    #     ax_2d.grid(True)
-        
-    # # Adjust layout to prevent overlap
-    # plt.tight_layout()
-    # save_path = 'simulations/real_mesh'
-    # os.makedirs(save_path, exist_ok=True)
-    # fig_path = os.path.join(save_path, f'{noise_type}_{size}_{dt}_{_extra_str}_2_rows.pdf')
-    # fig.savefig(fig_path, bbox_inches="tight", dpi=100)
-    # plt.show()
-
-
-
-
-
-
-    # fig = plt.figure()
-    # # ax = fig.add_subplot(111, projection='3d')
-    # ax = plt.axes(projection='3d',computed_zorder=False)
-
-    # # fig, ax = plt.subplots(figsize=(5, 4), dpi=100)
-
-
-    # colors = ['black', 'red', 'blue', 'green', 'purple', 'orange', 'black', 'gray', 'pink']
-    # for i, mesh_subset in enumerate(mesh_subsets):
-    #     if mesh_subset.shape[0] == 0:
-    #         continue
-    #     triang = triang_func(mesh_subset)
-    #     ax.plot_trisurf(triang, mesh_subset[:, 2], edgecolor=None, alpha=0.7, label=subjects[i], color=colors[i], zorder=2)
-    #     # scatter = ax.scatter(x_s, y_s, z_s, label=subjects[i], zorder=2)
-
-    # triang_full = triang_func(mesh_coordinates)
-    # ax.plot_trisurf(triang_full, mesh_coordinates[:, 2], cmap='gray', edgecolor=None, alpha=0.2, zorder=1)
-
-    # ax.view_init(elev=90, azim=90)
-    # ax.legend(loc='upper right')
-    # ax.grid(False)
-    # ax.set_axis_off()
-    # save_path = 'simulations/real_mesh'
-    # os.makedirs(save_path, exist_ok=True)
-    # fig_path = os.path.join(save_path, f'{noise_type}_{size}_{dt}_{_extra_str}.pdf')
-    # fig.savefig(fig_path, bbox_inches="tight", dpi=100)
