@@ -3,10 +3,6 @@ from src.utils.utils import find_XN_TN
 # General configuration
 noise = 0.3 
 T = 1e-2
-# NOTE: this is running in ssh oak11 (T=5, s=6, sphere_radius=1): took [38:22:57]
-
-# Running: 164, 131 -> dt=1e-6, mr=10
-
 dt = 1e-6
 sn = 1e-6
 
