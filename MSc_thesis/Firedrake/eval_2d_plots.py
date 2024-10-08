@@ -11,7 +11,6 @@ n = 0
 runs = [
     {'sn': sn, 'size': 100, 'dt': dt, 'T': T, 'extra': _extra_str}, 
     {'sn': sn, 'size': 90, 'dt': dt, 'T': T, 'extra': _extra_str}, 
-    # {'sn': 1e-4, 'size': 50, 'dt': 1e-4, 'T': 0.01, 'noise'=True},
 ]
 
 def plot_comparison(data, fname, dt, data_prev, dt_prev):
@@ -24,7 +23,7 @@ def plot_comparison(data, fname, dt, data_prev, dt_prev):
     time_frames = [0.001, 0.005]
     files_frames = [1, 10]
 
-    u_error = np.abs(u_now - u_prev)  # Calculate element-wise error
+    u_error = np.abs(u_now - u_prev)  
 
     data = [
         [(u_now[files_frames[0], :], f'dt={dt}', time_frames[0]),
@@ -44,7 +43,6 @@ def plot_comparison(data, fname, dt, data_prev, dt_prev):
         fig3 = plt.figure(figsize=(15, 5))
         data_fig = data[n]
         
-        # Loop to create subplots
         for i, (u_data, title, time_frame) in enumerate(data_fig, start=1):
             ax = fig3.add_subplot(1, 3, i)
             scatter = ax.scatter(x, y, c=u_data, cmap='coolwarm')
@@ -57,11 +55,11 @@ def plot_comparison(data, fname, dt, data_prev, dt_prev):
             ax.grid(False)
             ax.set_xticks([])
             ax.set_yticks([])
-            ax.set_frame_on(False)  # Remove the frame
+            ax.set_frame_on(False) 
             
             cbar = plt.colorbar(scatter, ax=ax, fraction=0.046, pad=0.04)
             formatter = ScalarFormatter(useMathText=True)
-            formatter.set_scientific(True)  # Force scientific notation
+            formatter.set_scientific(True) 
             cbar.ax.yaxis.set_major_formatter(formatter)
         
         plt.tight_layout()
@@ -83,10 +81,9 @@ for ri, r in enumerate(runs):
     pinns_input_file = c.pinns_input_file
 
     data = np.load(pinns_input_file, allow_pickle=True).item()
-    # print(data)
     if data_prev is None:
         dt_prev = dt
         data_prev = data.copy()
     else:
         plot_comparison(data=data, data_prev=data_prev, fname=output_path, dt=dt, dt_prev=dt_prev)
-        data_prev = data.copy()  # Update data_prev for the next iteration
+        data_prev = data.copy() 
