@@ -8,12 +8,12 @@ from matplotlib.ticker import FuncFormatter
 from src.config.params import noise, T, sn, dt, size, XN, TN, max_size, _extra_str, shape, config_kwargs
 from src.utils.utils_helmholtz_linear import calculate_errors
 
+"""Script for visualisation of different voxel signals on the mesh."""
+
 n = 0
 
 dts = [1e-6, 5e-6, 1e-5, 5e-5] 
 sizes = [164, 131, 80, 65, 40]
-
-# dts = dts[:3]
 
 ls = ['-', '--', '-.', ':']
 alpha = [0.5, 1.0]
@@ -56,19 +56,3 @@ plt.tight_layout(rect=[0, 0, 0.85, 1])
 plt.subplots_adjust(right=0.8) 
 plt.savefig('error_dts_sizes_0.999.pdf')
 plt.show()
-
-# c = SphereConfig(dt=1e-6, T=0.01, sampling_nom=1e-4, other='lc=2_r=100')
-# data = np.load(c.pinns_input_file, allow_pickle=True).item()
-# item = data['phi_e'][:, n]
-
-# c = SphereConfig(dt=1e-6, T=0.01, sampling_nom=1e-4, other='lc=1_r=100')
-# data = np.load(c.pinns_input_file, allow_pickle=True).item()
-
-# distances = np.linalg.norm(data['phi_e'] - item[:, np.newaxis], axis=1)
-# closest_idx = np.argmin(distances)
-
-# # Extract the closest items using the indices
-# closest_item = data['phi_e'][:, closest_idx]
-
-# print(f"Closest indices: {closest_idx}")
-# print(f"Closest items: {closest_item}")
