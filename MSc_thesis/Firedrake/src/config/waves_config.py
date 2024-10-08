@@ -19,8 +19,6 @@ bands_amplitude = { # in micro volts
     "alpha": 40,
     "beta": 11,
     "gamma": 4,
-    # "gamma high": 75,
-    # "gamma very high": 125,
 }
 
 bands_mean = {
@@ -33,9 +31,6 @@ bands_mean = {
     "gamma very high": 125,
 }
 
-# random_numbers = np.random.rand(20, 2)
-# random_tuples = [tuple(row) for row in random_numbers]
-# print(random_tuples)
 
 sources_2d = np.array([
     (0.029718512853793344, 0.8716452743203177),
@@ -48,10 +43,6 @@ sources_2d = np.array([
     (0.23557099720366548, 0.10894846451508955),
     (0.8183231022581631, 0.9187431685788614), 
 ])
-
-# random_numbers = np.random.uniform(-0.1, 0.1, (10, 2))
-# random_tuples = [tuple(row) for row in random_numbers]
-# print(random_tuples)
 
 speed_sources_2d = np.array([
     (0.009321947790091989, -0.030790495763255196), 
@@ -70,27 +61,6 @@ spacing = 5 # 5 : 2d
 max_f = 80 # 80 : 2d
 frequencies_pink = np.arange(1, max_f + spacing, spacing)
 
-# random_numbers = np.random.rand(10)
-# print(', '.join([str(rn) for rn in random_numbers]))
-
-# def xyz(r, phi, theta):
-#     x = r * np.sin(phi) * np.cos(theta)
-#     y = r * np.sin(phi) * np.sin(theta)
-#     z = r * np.cos(phi)
-#     return list(zip(x, y, z))
-
-# def generate_sphere_points(num_points, radius=1, surface_only=False): 
-#     r = radius if surface_only else radius * np.cbrt(np.random.rand(num_points))
-#     theta = 2 * np.pi * np.random.rand(num_points)  
-#     phi = np.arccos(1 - 2 * np.random.rand(num_points))
-#     return xyz(r, phi, theta)
-
-# num_points = 10 
-# inside_points = generate_sphere_points(num_points, radius=1, surface_only=False)
-
-# for point in inside_points:
-#     print(point)
-
 sources_3d = np.array([
     (-0.1541418001906502, 0.17613574803971815, -0.8403192399137376),
     (-0.159748719130701, -0.559347469307465, 0.7727151434385062),
@@ -103,10 +73,6 @@ sources_3d = np.array([
     (0.35384885237442526, -0.6201454597637217, 0.004343070431033864),
     (-0.021848926707657413, -0.06499607012744174, 0.9105251699667609),
 ])
-
-# random_sources = np.random.uniform(-0.1, 0.1, (num_points, 3))
-# for row in random_sources:
-#     print(tuple(row), ',')
 
 speed_sources_3d = np.array([
     (-0.08985056150054974, -0.008882406449874009, 0.04019719764706847),
