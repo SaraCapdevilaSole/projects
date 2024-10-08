@@ -9,7 +9,6 @@ from src.utils.utils import get_config
 n = 0
 
 runs = [
-    # {'sn': sn, 'size': 164, 'dt': dt, 'T': T, 'extra': _extra_str},
     {'sn': sn, 'size': 131, 'dt': dt, 'T': T, 'extra': _extra_str},
     {'sn': sn, 'size': 131, 'dt': dt, 'T': T, 'extra': _extra_str},
 ]
@@ -26,7 +25,7 @@ def plot_comparison(data, fname, dt, data_prev, dt_prev, size, s_prev):
     files_frames = [1, -1]
 
     try:
-        u_error = np.abs(u_now - u_prev)  # Calculate element-wise error
+        u_error = np.abs(u_now - u_prev) 
     except ValueError:
         u_error = np.abs(u_now - u_prev[:int(u_now.shape[0]*10):10])
 
@@ -64,7 +63,7 @@ def plot_comparison(data, fname, dt, data_prev, dt_prev, size, s_prev):
 
             cbar = plt.colorbar(scatter, ax=ax, fraction=0.046, pad=0.04)
             formatter = ScalarFormatter(useMathText=True)
-            formatter.set_scientific(True)  # Force scientific notation
+            formatter.set_scientific(True)  
             cbar.ax.yaxis.set_major_formatter(formatter)
         
         plt.tight_layout()
@@ -91,4 +90,4 @@ for ri, r in enumerate(runs):
         data_prev = data.copy()
     else:
         plot_comparison(data=data, data_prev=data_prev, fname=output_path, dt=dt, dt_prev=dt_prev, size=size, s_prev=s_prev)
-        data_prev = data.copy()  # Update data_prev for the next iteration
+        data_prev = data.copy() 
