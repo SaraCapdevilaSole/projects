@@ -8,7 +8,6 @@ def main(files=end_files):
     # load mesh
     mesh = meshio.read(data_path_fd + f'_{0}.vtu')
     mesh_coordinates = mesh.points 
-    # mesh_cells = mesh.cells # triangles: 10240 cells # TODO: need to use?
 
     # load data from all files
     phi_e_T_data = load_from_file(
