@@ -5,6 +5,12 @@ import matplotlib.pyplot as plt
 from scipy.io import loadmat
 from scipy.ndimage import gaussian_filter1d
 from random import randrange
+from scipy.fft import fft, fftfreq
+from scipy.optimize import curve_fit
+
+"""
+A script that loads and analyses real-world ECoG Data
+"""
 
 """
 NAME: fixation_PAC
@@ -23,7 +29,7 @@ jm	11	41	M	L	        L Frontotemporal
 ug	12	39	F	R	        R Frontal
 """
 
-# use a left hemisphere
+# Read Data
 def read_ecog_data(name='jm', path='/Users/saracapdevilasole/Downloads/fixation_PAC/data'):
     file_path = os.path.join(path, name, f'{name}_base.mat')
     mat_data = loadmat(file_path)
@@ -31,19 +37,6 @@ def read_ecog_data(name='jm', path='/Users/saracapdevilasole/Downloads/fixation_
     return mat_data
 
 data = read_ecog_data('zt')
-print(data['data'].shape) # Data (time x num channels)
-# print(data['brain'].shape) # tesselation of brain
-print(data['locs']) # Electrode locations (num channels x 3)
-print(data['locs'].shape) 
-# print(data['el_codes'].shape) # code for location of brain
-
-print(data['locs'].max())
-
-# plot 3d plot:
-# t = 0
-# x,y,z = [data['locs'][:,i] for i in range(3)]
-# plt.scatter(x,y,z,data['data'][t,:])
-# plt.show()
 
 # Time dependence:
 def plot_time_dependence(data, sf=1000, t_cut=10):
@@ -91,18 +84,20 @@ def plot_comparison(smoothed_data, raw_data, sf=1000, t_cut=10, t_avoid=1, sigma
         plt.show()
     return time_array[t_avoid_files:t_cut_files], raw_data['data'][t_avoid_files:t_cut_files,:]
 
-# plot_time_dependence(data)
+plot_time_dependence(data)
+
 sigma = 5
 smoothed_data = data.copy()
 smoothed_data['data'] = smooth_data(data['data'], method='gaussian', window_size=5, sigma=sigma)
-# plot_time_dependence(smoothed_data)
+
+plot_time_dependence(smoothed_data)
 time, dat = plot_comparison(smoothed_data, data, sigma=sigma, t_cut=1, t_avoid=0.05, plot_it=False)
 
-import numpy as np
-import matplotlib.pyplot as plt
+
+"""Extract Finite Difference Noise Function:"""
 
 # Define parameters
-Q0 = -0.35371 # simulated noise amplitude
+Q0 = -0.35371 
 gamma_s = 116
 r_s = 30
 nt, nx = dat.shape
@@ -123,89 +118,12 @@ for t in range(0, nt):
     dphi_dt = (phi[t] - phi[t-1]) / dt
     
     d2phi_dx2 = (np.roll(phi[t], -1, axis=0) - 2 * phi[t] + np.roll(phi[t], 1, axis=0)) / dx**2
-    Q_seq = (1/gamma_s**2) * d2phi_dt2 + (2/gamma_s) * dphi_dt + phi[t] - r_s**2 * d2phi_dx2
-    Q[t] = Q_seq
-    # Q[t] = np.sum(Q_seq)
+    Q[t]  = (1/gamma_s**2) * d2phi_dt2 + (2/gamma_s) * dphi_dt + phi[t] - r_s**2 * d2phi_dx2
 
 Q /= np.max(Q)
-# Plotting Q(t)
-# plt.figure(figsize=(10, 6))
-# plt.plot(time, Q)
-# plt.xlabel('Time')
-# plt.ylabel('Q (summed over space)')
-# plt.title('Time Evolution of Q (summed over spatial domain)')
-# plt.show()
 
-# print(Q.shape) # (950, 61)
-# print(time.shape) # (950,)
+"""Analyse Extracted Noise"""
 
-# max_f = 1000
-
-# from lab_machine_backup.utils_waves import make_plots, estimate_aperiodic_exponent, compute_spectrum, space_time_signal, generate_composite_signal
-
-# n_plot = [np.random.randint(0, Q.shape[1]) for _ in range(10)]
-# fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2,figsize=(8, 5), dpi=100, sharey='col')
-# S_array = []
-# for qi in range(Q.shape[1]):
-#     [S,f] = compute_spectrum(Q[:, qi], time)
-#     S_array.append(S)
-# S = np.mean(S_array, axis=0)
-# [aperiodic_exponent, x_linear_fit, y_linear_fit] = estimate_aperiodic_exponent(S, f, [3,150])
-# make_plots(time, Q, f, S, x_linear_fit,y_linear_fit, aperiodic_exponent, ax1, ax2, axis=1, n_plot=n_plot)
-
-# del S, x_linear_fit, y_linear_fit, f
-
-# print(np.max(Q))
-# Q_simulated = np.zeros((nt, nx))
-# for i, x in enumerate(data['locs']):
-#     # Q_simulated[:, i] = space_time_signal(time, x, radius=100, noise=np.max(np.abs(Q))*20, alpha=0.5, v=100) # alpha=3
-#     Q_simulated[:, i] = generate_composite_signal(time, noise=np.max(np.abs(Q)), alpha=0.6)
-# print(Q_simulated.shape)
-# S_array = []
-# for qi in range(Q_simulated.shape[1]):
-#     [S,f] = compute_spectrum(Q_simulated[:, qi], time)
-#     S_array.append(S)
-# S = np.mean(S_array, axis=0)
-# [aperiodic_exponent, x_linear_fit, y_linear_fit] = estimate_aperiodic_exponent(S, f, [3,150])
-# make_plots(time, Q_simulated, f, S, x_linear_fit,y_linear_fit, aperiodic_exponent, ax3, ax4, axis=1, n_plot=n_plot)
-# ax1.set_ylabel("Noise (Data)")
-# ax3.set_ylabel("Noise (Sim)")
-# ax1.set_xlabel("")
-# ax2.set_xlabel("")
-# ax1.set_xticks([])
-# ax2.set_xticks([])
-# # ax1.set_yticks([-1,0,1])
-# # ax3.set_yticks([-1,0,1])
-# # ax2.set_yticks([0,-10,-20])
-# # ax4.set_yticks([0,-10,-20])
-# # ax1.set_ylim([-1.8,1.8])
-# # ax3.set_ylim([-1.8,1.8])
-# print(np.abs(Q - Q_simulated))
-# print(np.max((Q_simulated)**2))
-# plt.tight_layout()
-# plt.show()
-
-import numpy as np
-from matplotlib import pyplot as plt
-
-# SAMPLE_RATE = 44100  # Hertz
-# DURATION = 5  # Seconds
-
-# def generate_sine_wave(freq, sample_rate, duration):
-#     x = np.linspace(0, duration, sample_rate * duration, endpoint=False)
-#     frequencies = x * freq
-#     # 2pi because np.sin takes radians
-#     y = np.sin((2 * np.pi) * frequencies)
-#     return x, y
-
-# # Generate a 2 hertz sine wave that lasts for 5 seconds
-# x, y = generate_sine_wave(2, SAMPLE_RATE, DURATION)
-
-from scipy.fft import fft, fftfreq
-
-# _, nice_tone = generate_sine_wave(400, SAMPLE_RATE, DURATION)
-# _, noise_tone = generate_sine_wave(4000, SAMPLE_RATE, DURATION)
-# noise_tone = noise_tone * 0.3
 SAMPLE_RATE = 1000
 N = len(Q)
 
@@ -251,21 +169,17 @@ for i in range(Q.shape[1]):
             frequencies.append(freq)
             amplitudes.append(amplitude)
 
-        # Normalize the reconstructed signal
         normalised_recon_signal = reconstructed_signal / reconstructed_signal.max()
         
-        # Compute the error (note: the error calculation might need adjustment)
         error = np.sqrt(np.sum((normalised_recon_signal - signal)**2)) / np.sqrt(np.sum(signal**2))
         errors.append(error)
         reconstructed_signals.append(normalised_recon_signal)
         num_frequencies.append(len(yf_filtered))
 
-
-    from scipy.optimize import curve_fit
     model = lambda x, c1, c2: c1 * (x ** c2)
 
     amplitudes /= np.max(amplitudes) 
-    popt, pcov = curve_fit(model, frequencies[2:], amplitudes[2:], p0=[1, 1])  # p0 is an initial guess for c1 and c2
+    popt, pcov = curve_fit(model, frequencies[2:], amplitudes[2:], p0=[1, 1]) 
 
     c1_opt, c2_opt = popt
 
@@ -301,24 +215,18 @@ axes[2].set_xlabel("Phase [rad]", fontsize=12)
 axes[2].set_ylabel("Amplitude [a.u.]", fontsize=12)
 axes[2].set_xticks([-2,0,2])
 axes[2].set_yticks([0,0.5,1])
-# axes[1].set_yscale('log')
-# axes[0].set_xscale('log')
-# axes[1].set_xscale('log')
 plt.tight_layout()
 plt.show()
 
 print(len(amplitudes))
-
 print(np.mean(alphas))
 print(np.std(alphas))
 
 plt.figure(figsize=(8, 6))
 plt.hist(alphas, bins=30, color='blue', edgecolor='black')
 
-# Add labels and title
 plt.xlabel('Value')
 plt.ylabel('Frequency')
 plt.title('Histogram of Values')
 
-# Show plot
 plt.show()
