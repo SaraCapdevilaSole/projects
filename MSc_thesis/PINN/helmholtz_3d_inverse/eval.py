@@ -12,7 +12,6 @@ def evaluate(config: ml_collections.ConfigDict, workdir: str):
 
     workdir = create_dir(config.wandb.project, workdir)
     
-    # Load dataset
     config.data.permute_data = False 
     t_star, u_ref, coords, Qs, fine_coords = get_dataset(config_dataset=config.data) 
 
